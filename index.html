@@ -7,18 +7,21 @@
     <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css">
     <style>
         body { font-family: Arial, sans-serif; }
-        .swiper-container { width: 100%; height: auto; }
+        .swiper-container {
+            width: 100%; /* Largura total do contêiner */
+            height: auto; /* Altura automática para caber no conteúdo */
+        }
         .swiper-slide {
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 400px; /* Tente um valor maior */
+            height: auto; /* Permite que a altura se ajuste ao conteúdo */
         }
         .swiper-slide img, .swiper-slide video {
-            max-width: 100%; /* Permite ocupar a largura total */
-            max-height: 90%; /* Limita a altura para evitar que fiquem pequenas */
-            width: auto; /* Ajusta automaticamente */
-            height: auto; /* Ajusta automaticamente */
+            max-width: none; /* Permite o tamanho máximo sem restrições */
+            max-height: none; /* Permite o tamanho máximo sem restrições */
+            width: auto; /* Usa o tamanho natural */
+            height: auto; /* Usa o tamanho natural */
             object-fit: contain; /* Mantém a proporção */
         }
     </style>
