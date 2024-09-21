@@ -43,6 +43,10 @@
     <script src="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.js"></script>
     <script>
         const swiper = new Swiper('.swiper-container', {
+            autoplay: {
+                delay: 5000, // Tempo em milissegundos para cada slide
+                disableOnInteraction: false, // Permite que o autoplay continue após interação
+            },
             pagination: {
                 el: '.swiper-pagination',
                 clickable: true,
@@ -56,8 +60,6 @@
         const loadContent = async () => {
             const response = await fetch('https://api.github.com/repos/tuesbela/imagenstv/contents/midia?ref=main');
             const files = await response.json();
-
-            let videoDuration = 0; // Para armazenar a duração total dos vídeos
 
             files.forEach(file => {
                 const slide = document.createElement('div');
@@ -78,11 +80,8 @@
                 if (file.name.endsWith('.mp4')) {
                     const video = slide.querySelector('video');
                     video.removeAttribute('muted'); // Permite som no vídeo
-                    video.addEventListener('loadedmetadata', () => {
-                        videoDuration += video.duration; // Soma a duração dos vídeos
-                        video.addEventListener('ended', () => {
-                            swiper.slideNext(); // Avança para o próximo slide quando o vídeo termina
-                        });
+                    video.addEventListener('ended', () => {
+                        swiper.slideNext(); // Avança para o próximo slide quando o vídeo termina
                     });
                 }
             });
