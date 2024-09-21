@@ -15,13 +15,13 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            height: auto; /* Permite que a altura se ajuste ao conteúdo */
+            height: 800px; /* Aumente a altura para 800px ou um valor que você achar adequado */
         }
         .swiper-slide img, .swiper-slide video {
-            max-width: none; /* Permite o tamanho máximo sem restrições */
-            max-height: none; /* Permite o tamanho máximo sem restrições */
-            width: auto; /* Usa o tamanho natural */
-            height: auto; /* Usa o tamanho natural */
+            max-width: 100%; /* Permite que ocupem a largura total do contêiner */
+            max-height: 100%; /* Limita a altura ao tamanho do contêiner */
+            width: auto; /* Ajusta a largura automaticamente */
+            height: auto; /* Ajusta a altura automaticamente */
             object-fit: contain; /* Mantém a proporção */
         }
     </style>
