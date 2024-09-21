@@ -17,12 +17,17 @@
             align-items: center;
             height: 50vh; /* Usa 50% da altura da viewport */
         }
-        .swiper-slide img, .swiper-slide video {
+        .swiper-slide img {
             max-width: 100%; /* Permite que ocupem a largura total do contêiner */
             max-height: 100%; /* Limita a altura ao tamanho do contêiner */
             width: auto; /* Ajusta a largura automaticamente */
             height: auto; /* Ajusta a altura automaticamente */
-            object-fit: contain; /* Mantém a proporção */
+        }
+        .swiper-slide video {
+            max-width: 100%; /* Permite que ocupem a largura total do contêiner */
+            max-height: 100%; /* Limita a altura ao tamanho do contêiner */
+            width: auto; /* Ajusta a largura automaticamente */
+            height: auto; /* Ajusta a altura automaticamente */
         }
     
         @media (min-width: 768px) {
@@ -36,7 +41,7 @@
                 height: 800px; /* Aumenta ainda mais para telas muito grandes */
             }
         }
-    </style>
+    </style>    
 </head>
 <body>
     <div class="swiper-container">
