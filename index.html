@@ -43,7 +43,6 @@
     <script src="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.js"></script>
     <script>
         const swiper = new Swiper('.swiper-container', {
-            autoplay: false, // Desativa o autoplay automático para controlar manualmente
             pagination: {
                 el: '.swiper-pagination',
                 clickable: true,
@@ -58,12 +57,14 @@
             const response = await fetch('https://api.github.com/repos/tuesbela/imagenstv/contents/midia?ref=main');
             const files = await response.json();
 
+            let videoDuration = 0; // Para armazenar a duração total dos vídeos
+
             files.forEach(file => {
                 const slide = document.createElement('div');
                 slide.classList.add('swiper-slide');
 
                 if (file.name.endsWith('.mp4')) {
-                    slide.innerHTML = `<video autoplay loop muted>
+                    slide.innerHTML = `<video autoplay muted>
                                            <source src="${file.download_url}" type="video/mp4">
                                            Seu navegador não suporta vídeos HTML5.
                                        </video>`;
@@ -77,9 +78,21 @@
                 if (file.name.endsWith('.mp4')) {
                     const video = slide.querySelector('video');
                     video.removeAttribute('muted'); // Permite som no vídeo
-                    video.addEventListener('ended', () => {
-                        swiper.slideNext(); // Avança para o próximo slide quando o vídeo termina
+                    video.addEventListener('loadedmetadata', () => {
+                        videoDuration += video.duration; // Soma a duração dos vídeos
+                        video.addEventListener('ended', () => {
+                            swiper.slideNext(); // Avança para o próximo slide quando o vídeo termina
+                        });
                     });
+                }
+            });
+
+            // Inicia o primeiro vídeo ou imagem
+            swiper.on('slideChange', () => {
+                const currentSlide = swiper.slides[swiper.activeIndex];
+                const video = currentSlide.querySelector('video');
+                if (video) {
+                    video.play(); // Reproduz o vídeo quando o slide muda
                 }
             });
         };
