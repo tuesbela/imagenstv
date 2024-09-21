@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Carrossel de Imagens e Vídeos</title>
-    <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.css">
     <style>
         body { font-family: Arial, sans-serif; }
         .swiper-container {
@@ -29,69 +29,64 @@
             width: auto; /* Ajusta a largura automaticamente */
             height: auto; /* Ajusta a altura automaticamente */
         }
-    
-        @media (min-width: 768px) {
-            .swiper-slide {
-                height: 600px; /* Aumenta a altura para telas maiores */
-            }
-        }
-    
-        @media (min-width: 1200px) {
-            .swiper-slide {
-                height: 800px; /* Aumenta ainda mais para telas muito grandes */
-            }
-        }
-    </style>    
+    </style>
 </head>
 <body>
+
     <div class="swiper-container">
-        <div class="swiper-wrapper" id="media-wrapper"></div>
+        <div class="swiper-wrapper">
+            <!-- Slides serão adicionados aqui via JavaScript -->
+        </div>
+        <div class="swiper-pagination"></div>
         <div class="swiper-button-next"></div>
         <div class="swiper-button-prev"></div>
-        <div class="swiper-pagination"></div>
     </div>
 
-    <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.js"></script>
     <script>
-        async function fetchMedia() {
-            const response = await fetch('https://api.github.com/repos/tuesbela/imagenstv/contents/midia');
-            const mediaFiles = await response.json();
-            const mediaWrapper = document.getElementById('media-wrapper');
+        const swiper = new Swiper('.swiper-container', {
+            autoplay: false, // Desativa o autoplay
+            pagination: {
+                el: '.swiper-pagination',
+                clickable: true,
+            },
+            navigation: {
+                nextEl: '.swiper-button-next',
+                prevEl: '.swiper-button-prev',
+            },
+        });
 
-            mediaFiles.forEach(file => {
+        const loadContent = async () => {
+            const response = await fetch('https://api.github.com/repos/tuesbela/imagenstv/contents/midia?ref=main');
+            const files = await response.json();
+
+            files.forEach(file => {
                 const slide = document.createElement('div');
                 slide.classList.add('swiper-slide');
 
-                if (file.name.endsWith('.jpg') || file.name.endsWith('.jpeg') || file.name.endsWith('.png')) {
+                if (file.name.endsWith('.mp4')) {
+                    slide.innerHTML = `<video controls>
+                                           <source src="${file.download_url}" type="video/mp4">
+                                           Seu navegador não suporta vídeos HTML5.
+                                       </video>`;
+                } else {
                     slide.innerHTML = `<img src="${file.download_url}" alt="${file.name}">`;
-                } else if (file.name.endsWith('.mp4')) {
-                    slide.innerHTML = `<video controls autoplay loop>
-                        <source src="${file.download_url}" type="video/mp4">
-                        Seu navegador não suporta vídeos HTML5.
-                    </video>`;
                 }
-                mediaWrapper.appendChild(slide);
-            });
 
-            // Inicializa o Swiper
-            new Swiper('.swiper-container', {
-                navigation: {
-                    nextEl: '.swiper-button-next',
-                    prevEl: '.swiper-button-prev',
-                },
-                pagination: {
-                    el: '.swiper-pagination',
-                    clickable: true,
-                },
-                loop: true,
-                autoplay: {
-                    delay: 5000,
-                    disableOnInteraction: false,
-                },
-            });
-        }
+                swiper.appendSlide(slide);
 
-        fetchMedia();
+                // Adiciona o listener para o evento 'ended' nos vídeos
+                if (file.name.endsWith('.mp4')) {
+                    const video = slide.querySelector('video');
+                    video.addEventListener('ended', () => {
+                        swiper.slideNext(); // Avança para o próximo slide quando o vídeo termina
+                    });
+                }
+            });
+        };
+
+        loadContent();
     </script>
+
 </body>
 </html>
