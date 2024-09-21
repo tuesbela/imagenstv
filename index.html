@@ -15,7 +15,7 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 800px; /* Aumente a altura para 800px ou um valor que você achar adequado */
+            height: 50vh; /* Usa 50% da altura da viewport */
         }
         .swiper-slide img, .swiper-slide video {
             max-width: 100%; /* Permite que ocupem a largura total do contêiner */
@@ -23,6 +23,18 @@
             width: auto; /* Ajusta a largura automaticamente */
             height: auto; /* Ajusta a altura automaticamente */
             object-fit: contain; /* Mantém a proporção */
+        }
+    
+        @media (min-width: 768px) {
+            .swiper-slide {
+                height: 600px; /* Aumenta a altura para telas maiores */
+            }
+        }
+    
+        @media (min-width: 1200px) {
+            .swiper-slide {
+                height: 800px; /* Aumenta ainda mais para telas muito grandes */
+            }
         }
     </style>
 </head>
