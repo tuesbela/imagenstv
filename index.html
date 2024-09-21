@@ -12,17 +12,18 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 300px; /* Ajuste a altura conforme necessário */
+            height: 400px; /* Tente um valor maior */
         }
         .swiper-slide img, .swiper-slide video {
-            max-width: 80%; /* Ajuste conforme necessário */
-            max-height: 80%; /* Ajuste conforme necessário */
-            object-fit: contain; /* Faz com que a imagem ou vídeo se ajuste sem distorcer */
+            max-width: 100%; /* Permite ocupar a largura total */
+            max-height: 90%; /* Limita a altura para evitar que fiquem pequenas */
+            width: auto; /* Ajusta automaticamente */
+            height: auto; /* Ajusta automaticamente */
+            object-fit: contain; /* Mantém a proporção */
         }
     </style>
 </head>
 <body>
-    <h2>Carrossel de Imagens e Vídeos</h2>
     <div class="swiper-container">
         <div class="swiper-wrapper" id="media-wrapper"></div>
         <div class="swiper-button-next"></div>
