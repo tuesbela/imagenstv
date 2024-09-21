@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Carrossel de Imagens e Vídeos</title>
+    <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css">
+    <style>
+        body { font-family: Arial, sans-serif; }
+        .swiper-container { width: 100%; height: 100%; }
+        .swiper-slide img, .swiper-slide video { width: 100%; height: auto; }
+    </style>
+</head>
+<body>
+    <h2>Carrossel de Imagens e Vídeos</h2>
+    <div class="swiper-container">
+        <div class="swiper-wrapper" id="media-wrapper"></div>
+        <div class="swiper-button-next"></div>
+        <div class="swiper-button-prev"></div>
+        <div class="swiper-pagination"></div>
+    </div>
+
+    <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+    <script>
+        async function fetchMedia() {
+            const response = await fetch('https://api.github.com/repos/tuesbela/imagenstv/contents/midia');
+            const mediaFiles = await response.json();
+            const mediaWrapper = document.getElementById('media-wrapper');
+
+            mediaFiles.forEach(file => {
+                const slide = document.createElement('div');
+                slide.classList.add('swiper-slide');
+
+                if (file.name.endsWith('.jpg') || file.name.endsWith('.png')) {
+                    slide.innerHTML = `<img src="${file.download_url}" alt="${file.name}">`;
+                } else if (file.name.endsWith('.mp4')) {
+                    slide.innerHTML = `<video controls><source src="${file.download_url}" type="video/mp4">Seu navegador não suporta vídeos HTML5.</video>`;
+                }
+
+                mediaWrapper.appendChild(slide);
+            });
+
+            // Inicializa o Swiper
+            new Swiper('.swiper-container', {
+                navigation: {
+                    nextEl: '.swiper-button-next',
+                    prevEl: '.swiper-button-prev',
+                },
+                pagination: {
+                    el: '.swiper-pagination',
+                    clickable: true,
+                },
+                loop: true,
+                autoplay: {
+                    delay: 3000,
+                    disableOnInteraction: false,
+                },
+            });
+        }
+
+        fetchMedia();
+    </script>
+</body>
+</html>
