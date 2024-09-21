@@ -82,6 +82,7 @@
                     video.removeAttribute('muted'); // Permite som no vídeo
                     video.addEventListener('ended', () => {
                         swiper.slideNext(); // Avança para o próximo slide quando o vídeo termina
+                        swiper.autoplay.start(); // Reinicia o autoplay após o vídeo
                     });
                 }
             });
@@ -91,7 +92,10 @@
                 const currentSlide = swiper.slides[swiper.activeIndex];
                 const video = currentSlide.querySelector('video');
                 if (video) {
+                    swiper.autoplay.stop(); // Para o autoplay ao iniciar um vídeo
                     video.play(); // Reproduz o vídeo quando o slide muda
+                } else {
+                    swiper.autoplay.start(); // Reinicia o autoplay para imagens
                 }
             });
         };
