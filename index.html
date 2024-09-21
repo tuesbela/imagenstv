@@ -65,7 +65,7 @@
                 if (file.name.endsWith('.jpg') || file.name.endsWith('.jpeg') || file.name.endsWith('.png')) {
                     slide.innerHTML = `<img src="${file.download_url}" alt="${file.name}">`;
                 } else if (file.name.endsWith('.mp4')) {
-                    slide.innerHTML = `<video controls autoplay muted loop>
+                    slide.innerHTML = `<video controls autoplay loop>
                         <source src="${file.download_url}" type="video/mp4">
                         Seu navegador não suporta vídeos HTML5.
                     </video>`;
@@ -85,7 +85,7 @@
                 },
                 loop: true,
                 autoplay: {
-                    delay: 3000,
+                    delay: 5000,
                     disableOnInteraction: false,
                 },
             });
